@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+set -e
+
+realpath() {
+    echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
+}
+
 timestamp=`date +"%Y-%m-%d-%H_%M_%S"`
 backup_dir=".dotfiles-backups/$timestamp"
 
