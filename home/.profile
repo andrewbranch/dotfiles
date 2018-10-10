@@ -1,5 +1,5 @@
 # yarn
-export PATH="$PATH:`yarn global bin`"
+command -v foo >/dev/null 2>&1 && export PATH="$PATH:`yarn global bin`"
 
 # Haskell
 export PATH="/Users/Andrew/.local/bin:$PATH"
