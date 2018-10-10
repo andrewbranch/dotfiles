@@ -33,3 +33,10 @@ for file in `find home -maxdepth 1 -type file`; do
     fi
     ln -si $filepath ~
 done
+
+# Completions
+mkdir -p ~/.bash_completion.d
+if ! [ -e ~/.bash_completion.d/git-completion.bash ]; then
+    url="https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash"
+    curl $url > ~/.bash_completion.d/git-completion.bash
+fi

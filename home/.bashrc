@@ -39,3 +39,8 @@ nag () {
 
 # secret things
 test -f ./bash_secrets && source ./bash_secrets
+
+# completions
+for file in `find ~/.bash_completion.d -maxdepth 1 -type file`; do
+  . $file
+done
