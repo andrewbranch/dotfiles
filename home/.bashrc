@@ -9,6 +9,10 @@ if [ -f /usr/local/share/bash-completion/bash_completion ]; then
     . /usr/local/share/bash-completion/bash_completion
 fi
 
+if command -v kubectl >/dev/null 2>&1; then
+    eval "$(kubectl completion bash)"
+fi
+
 # colors
 export CLICOLOR=1
 export TERM="xterm-color"
