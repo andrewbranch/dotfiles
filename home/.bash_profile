@@ -1,5 +1,9 @@
 test -f $HOME/.bashrc && source $HOME/.bashrc
 test -f $HOME/.profile && source $HOME/.profile
+
+# hass-cli completions
+. <(hass-cli completion bash)
+
 ###-begin-cf-completions-###
 #
 # yargs command completion script

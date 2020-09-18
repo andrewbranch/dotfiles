@@ -1,7 +1,7 @@
 [user]
 	name = Andrew Branch
 	email = andrew@wheream.io
-	signingkey = 20C427D2
+	signingkey = 3F80A965F914BC028650E39522CCA4B120C427D2
 [filter "media"]
 	required = true
 	clean = git media clean %f
@@ -20,12 +20,19 @@
 [credential]
 	helper = osxkeychain
 [push]
-	default = simple
+	default = current
 [filter "lfs"]
 	clean = git lfs clean %f
 	smudge = git lfs smudge %f
 	required = true
+	process = git-lfs filter-process
 [url "https://github.com/"]
 [url "https://github.com/"]
 [commit]
 	gpgsign = true
+[gpg]
+	program = /usr/local/MacGPG2/bin/gpg2
+[tag]
+	forceSignAnnotated = true
+[pull]
+	rebase = false
