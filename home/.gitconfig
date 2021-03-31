@@ -12,7 +12,7 @@
 	required = true
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-    log = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	track = "!git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`"
 [core]
 	editor = /usr/bin/vim
 	autocrlf = input
@@ -36,3 +36,5 @@
 	forceSignAnnotated = true
 [pull]
 	rebase = false
+[init]
+	defaultBranch = main

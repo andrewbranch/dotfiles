@@ -14,8 +14,10 @@ autoload -U select-word-style
 select-word-style bash
 
 # History search
-bindkey "^[[A" history-beginning-search-backward
-bindkey "^[[B" history-beginning-search-forward
+source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey "^[[A" history-substring-search-up
+bindkey "^[[B" history-substring-search-down
+export HISTORY_SUBSTRING_SEARCH_FUZZY=1
 
 # Prompt
 autoload -U promptinit; promptinit
@@ -64,3 +66,6 @@ autoload -Uz compinit && compinit
 if command -v kubectl >/dev/null 2>&1; then
     eval "$(kubectl completion zsh)"
 fi
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+

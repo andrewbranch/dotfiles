@@ -92,3 +92,17 @@ function nag () {
   $@;
   echo -e "\a";
 }
+
+# compress a video file
+function cmp() {
+  delay=$2
+  base=`echo $1 | rev | cut -d. -f2 | rev`
+  ext="mp4"
+  cmd="ffmpeg -i \"$1\" -itsoffset $delay -i \"$1\" -map 1:v -map 0:a -c:v libx264 -preset veryslow -crf 24 \"$base.cmp.$ext\""
+  echo $cmd
+  echo ""
+  nag eval "$cmd" && du -h "$base.cmp.$ext"
+}
+
+# TypeScript baseline diff
+alias bldiff="git diff --diff-filter=AM --no-index ./tests/baselines/reference ./tests/baselines/local"
