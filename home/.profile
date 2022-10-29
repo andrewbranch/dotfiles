@@ -22,9 +22,6 @@ command -v foo >/dev/null 2>&1 && export PATH="$PATH:`yarn global bin`"
 # Haskell
 export PATH="/Users/Andrew/.local/bin:$PATH"
 
-# Azure CLI completions
-. ~/.azure.completion.sh
-
 # Hass
 alias hass=hass-cli
 
@@ -47,9 +44,6 @@ function down() {
   done &) > /dev/null
   echo '🤫'
 }
-
-# hub alias
-command -v hub >/dev/null 2>&1 && eval "$(hub alias -s)"
 
 # serve current directory on port 8000
 function http() {
@@ -95,14 +89,58 @@ function nag () {
 
 # compress a video file
 function cmp() {
-  delay=$2
   base=`echo $1 | rev | cut -d. -f2 | rev`
   ext="mp4"
-  cmd="ffmpeg -i \"$1\" -itsoffset $delay -i \"$1\" -map 1:v -map 0:a -c:v libx264 -preset veryslow -crf 24 \"$base.cmp.$ext\""
+  cmd="ffmpeg -i \"$1\" -c:v libx264 -preset veryslow -crf 24 \"$base.cmp.$ext\""
   echo $cmd
   echo ""
   nag eval "$cmd" && du -h "$base.cmp.$ext"
 }
 
-# TypeScript baseline diff
+function fix_delay() {
+  base=`echo $1 | rev | cut -d. -f2 | rev`
+  ext="mp4"
+  cmd="ffmpeg -ss $2 -i \"$1\" -i \"$1\" -map 0:0 -map 1:1 -acodec copy -vcodec copy \"$base.fixed.$ext\""
+  echo $cmd
+  echo ""
+  nag eval "$cmd"
+}
+
+
+# TypeScript shortcuts
 alias bldiff="git diff --diff-filter=AM --no-index ./tests/baselines/reference ./tests/baselines/local"
+alias bla="npx gulp baseline-accept"
+alias t="npx gulp runtests --lint=false"
+alias tp="npx gulp runtests-parallel --lint=false"
+
+# Work and not work
+function jobs() {
+  open -a "Microsoft Teams"
+  open -a "Visual Studio Code - Insiders"
+  open -a "Safari" "https://github.com/notifications"
+  open -a "Microsoft Outlook"
+}
+function no() {
+  if [[ "$1" = "more"  &&  "$2" = "jobs" ]]; then
+    cd ~
+    osascript -e 'quit application "Microsoft Outlook"'
+    osascript -e 'quit application "Visual Studio Code - Insiders"'
+    osascript -e 'quit application "Microsoft Teams"'
+    osascript -e 'quit application "Microsoft AutoUpdate"'
+    
+    SCRIPT=`cat <<EOF
+      set urls to {"github.com", "microsoft.com", "azure.com", "office.com", "unpkg.com", "npm.com"}
+      tell application "Safari"
+        repeat with w in (every window)
+          repeat with u in urls
+            close (every tab of w whose url contains u)
+          end repeat
+        end repeat
+      end tell
+    EOF`
+    osascript -e $SCRIPT > /dev/null
+  fi 
+}
+
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

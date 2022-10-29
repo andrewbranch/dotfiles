@@ -22,16 +22,14 @@
 [push]
 	default = current
 [filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
 	required = true
 	process = git-lfs filter-process
 [url "https://github.com/"]
 [url "https://github.com/"]
 [commit]
 	gpgsign = true
-[gpg]
-	program = /usr/local/MacGPG2/bin/gpg2
 [tag]
 	forceSignAnnotated = true
 [pull]

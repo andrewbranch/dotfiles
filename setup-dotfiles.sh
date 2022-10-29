@@ -2,36 +2,39 @@
 
 set -e
 
-realpath() {
-    echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
-}
-
 timestamp=`date +"%Y-%m-%d-%H_%M_%S"`
 backup_dir=".dotfiles-backups/$timestamp"
 
 echo "Linking files to home directory..."
-for file in `find home -maxdepth 1 -type file`; do
-    filepath=`realpath $file`
-    filename=`basename $file`
+for file in `find home -maxdepth 2 -type file`; do
+    filepath=`grealpath $file`
+    filename=`grealpath --relative-to=home $file`
+    subdir=`dirname $filename`
+    target_dir=`grealpath ~/$subdir`
+    backup_path="$HOME/$backup_dir/$filename"
+    backup_subdir=`dirname $backup_path`
     if [ -e ~/$filename ] || [ -L ~/$filename ]; then
         if [ -L ~/$filename ]; then
-            symlink_path=`realpath ~/$filename`
+            symlink_path=`grealpath ~/$filename`
             if [ $symlink_path != $filepath ]; then
-                echo "'~/$filename' is a symlink to '$symlink_path'; relinking into '~/$backup_dir'"
-                mkdir -p "$HOME/$backup_dir"
-                ln -s $symlink_path ~/$backup_dir/
+                echo "'~/$filename' is a link from '$symlink_path'; relinking into '~/$backup_dir'"
+                mkdir -p `dirname $backup_path`
+                ln -s $symlink_path $backup_subdir/
                 unlink ~/$filename
             else
-                echo "'~/$filename' is already linked to here; nothing to do"
+                echo "'$filepath' is already linked into '$target_dir'; nothing to do"
                 continue
             fi
         else
             echo "'~/$filename' already exists; moving into '~/$backup_dir'"
-            mkdir -p "$HOME/$backup_dir"
-            mv ~/$filename ~$backup_dir/
+            mkdir -p $backup_subdir
+            mv ~/$filename $backup_subdir/
         fi
     fi
-    ln -si $filepath ~
+    echo "Linking '$filepath' into '$target_dir'"
+    ln -si $filepath $target_dir
+
+    read -p "Press enter to continue"
 done
 
 # Completions

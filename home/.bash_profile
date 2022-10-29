@@ -33,3 +33,5 @@ _yargs_completions()
 complete -F _yargs_completions cf
 ###-end-cf-completions-###
 
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

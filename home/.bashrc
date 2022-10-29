@@ -14,3 +14,7 @@ fi
 for file in `find ~/.bash_completion.d -maxdepth 1 -type f`; do
   . $file
 done
+
+
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
