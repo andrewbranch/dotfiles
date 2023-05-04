@@ -47,8 +47,7 @@ function down() {
 
 # serve current directory on port 8000
 function http() {
-  dir=${1%/}
-  docker run -v $dir:/tmp/share -p 8000:8000 ksmithorn97/gzip-http-file-server
+  python -m http.server
 }
 
 # kill whatever is on a given port
@@ -106,17 +105,18 @@ function fix_delay() {
   nag eval "$cmd"
 }
 
+alias code="code-insiders"
 
 # TypeScript shortcuts
 alias bldiff="git diff --diff-filter=AM --no-index ./tests/baselines/reference ./tests/baselines/local"
-alias bla="npx gulp baseline-accept"
-alias t="npx gulp runtests --lint=false"
-alias tp="npx gulp runtests-parallel --lint=false"
+alias bla="npx hereby baseline-accept"
+alias t="npx hereby runtests --no-typecheck"
+alias tp="npx hereby runtests-parallel"
 
 # Work and not work
 function jobs() {
   open -a "Microsoft Teams"
-  open -a "Visual Studio Code - Insiders"
+  code
   open -a "Safari" "https://github.com/notifications"
   open -a "Microsoft Outlook"
 }
@@ -124,12 +124,13 @@ function no() {
   if [[ "$1" = "more"  &&  "$2" = "jobs" ]]; then
     cd ~
     osascript -e 'quit application "Microsoft Outlook"'
+    osascript -e 'quit application "Visual Studio Code"'
     osascript -e 'quit application "Visual Studio Code - Insiders"'
     osascript -e 'quit application "Microsoft Teams"'
     osascript -e 'quit application "Microsoft AutoUpdate"'
     
     SCRIPT=`cat <<EOF
-      set urls to {"github.com", "microsoft.com", "azure.com", "office.com", "unpkg.com", "npm.com"}
+      set urls to {"github.com", "microsoft.com", "azure.com", "office.com", "unpkg.com", "npm.com", "typescriptlang.org", "nodejs.org"}
       tell application "Safari"
         repeat with w in (every window)
           repeat with u in urls

@@ -11,8 +11,9 @@
 	smudge = git hawser smudge %f
 	required = true
 [alias]
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --first-parent
 	track = "!git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`"
+        mergemain = "!git checkout main && git pull && git checkout - && git merge -"
 [core]
 	editor = /usr/bin/vim
 	autocrlf = input
