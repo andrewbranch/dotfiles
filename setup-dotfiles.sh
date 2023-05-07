@@ -54,3 +54,14 @@ if ! [ -e ~/.gnupg/gpg-agent.conf ]; then
 else
     echo "GPG pinentry-program already configured"
 fi
+
+# /etc/hosts
+if ! [ -e /etc/_hosts ]; then
+    echo "Backing up /etc/hosts to /etc/_hosts"
+    sudo cp /etc/hosts /etc/_hosts
+    url="https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
+    echo "Downloading $url"
+    curl $url | sudo tee /etc/hosts > /dev/null
+else
+    echo "/etc/hosts already configured"
+fi
