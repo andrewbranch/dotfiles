@@ -14,7 +14,7 @@ autoload -U select-word-style
 select-word-style bash
 
 # History search
-source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey "^[[A" history-substring-search-up
 bindkey "^[[B" history-substring-search-down
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
