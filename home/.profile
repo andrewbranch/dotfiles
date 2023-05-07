@@ -1,3 +1,5 @@
+export BREW_PREFIX=$(brew --prefix)
+
 # colors
 export CLICOLOR=1
 export TERM="xterm-color"
@@ -8,42 +10,7 @@ export LESS=' -R -X -F '
 alias more='less'
 
 # Use GNU tar
-export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
-
-# Python
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-if [ -n `which python` ]; then
-  export PATH="`python -m site --user-base`/bin:$PATH"
-fi
-
-# yarn
-command -v foo >/dev/null 2>&1 && export PATH="$PATH:`yarn global bin`"
-
-# Haskell
-export PATH="/Users/Andrew/.local/bin:$PATH"
-
-# Hass
-alias hass=hass-cli
-
-function up() {
-  hass service call --arguments entity_id=media_player.43_tcl_roku_tv media_player.volume_up > /dev/null
-  [ $? -ne 0 ] && return 1
-  (for ((i=1; i < ${1:-1}; i++)); do
-    set -e
-    hass service call --arguments entity_id=media_player.43_tcl_roku_tv media_player.volume_up > /dev/null
-  done &) > /dev/null
-  echo '🎸'
-}
-
-function down() {
-  hass service call --arguments entity_id=media_player.43_tcl_roku_tv media_player.volume_down > /dev/null
-  [ $? -ne 0 ] && return 1
-  (for ((i=1; i < ${1:-1}; i++)); do
-    set -e
-    hass service call --arguments entity_id=media_player.43_tcl_roku_tv media_player.volume_down > /dev/null
-  done &) > /dev/null
-  echo '🤫'
-}
+export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
 
 # serve current directory on port 8000
 function http() {

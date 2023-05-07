@@ -43,3 +43,14 @@ if ! [ -e ~/.bash_completion.d/git-completion.bash ]; then
     url="https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash"
     curl $url > ~/.bash_completion.d/git-completion.bash
 fi
+
+# GPG pinentry
+mkdir -p $HOME/.gnupg
+if ! [ -e ~/.gnupg/gpg-agent.conf ]; then
+    echo "Configuring GPG pinentry-program"
+    echo "pinentry-program $(brew --prefix)/bin/pinentry-mac" > $HOME/.gnupg/gpg-agent.conf
+    chmod 600 $HOME/.gnupg/gpg-agent.conf
+    chmod 700 $HOME/.gnupg
+else
+    echo "GPG pinentry-program already configured"
+fi

@@ -14,7 +14,7 @@ autoload -U select-word-style
 select-word-style bash
 
 # History search
-source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey "^[[A" history-substring-search-up
 bindkey "^[[B" history-substring-search-down
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
@@ -56,17 +56,6 @@ export TERM="xterm-color"
 
 # completions support
 autoload -Uz compinit && compinit
-
-# hass-cli completions
-. <(hass-cli completion zsh)
-
-# kubectl completions
-if command -v kubectl >/dev/null 2>&1; then
-    eval "$(kubectl completion zsh)"
-fi
-
-# Azure CLI completions
-source "${HOME}/.azure.completion.sh"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 

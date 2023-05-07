@@ -1,10 +1,6 @@
 # bash completion
-if [ -f /usr/local/share/bash-completion/bash_completion ]; then
-    . /usr/local/share/bash-completion/bash_completion
-fi
-
-if command -v kubectl >/dev/null 2>&1; then
-    eval "$(kubectl completion bash)"
+if [ -f "$(brew --prefix)/share/bash-completion/bash_completion" ]; then
+    . "$(brew --prefix)/share/bash-completion/bash_completion"
 fi
 
 # prompt
