@@ -110,5 +110,14 @@ function no() {
   fi 
 }
 
+function audio() {
+  current=`SwitchAudioSource -c`
+  if [[ "$current" = "LG UltraFine Display Audio" ]]; then
+    SwitchAudioSource -s "Universal Audio Thunderbolt"
+  else
+    SwitchAudioSource -s "LG UltraFine Display Audio"
+  fi
+}
+
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
