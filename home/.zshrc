@@ -74,3 +74,16 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+
+# Add node_modules/.bin to PATH
+function precmd() {
+  path=( ${path[@]:#*node_modules*} )
+  local p="$(pwd)"
+  while [[ "$p" != '/' ]]; do
+    if [[ -d "$p/node_modules/.bin" ]]; then
+      path+=("$p/node_modules/.bin")
+    fi
+    p="$(dirname "$p")"
+  done
+  typeset -U path
+}
