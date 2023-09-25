@@ -6,10 +6,12 @@ timestamp=`date +"%Y-%m-%d-%H_%M_%S"`
 backup_dir=".dotfiles-backups/$timestamp"
 
 echo "Linking files to home directory..."
-for file in `find home -maxdepth 2 -type file`; do
+for file in `find home -maxdepth 4 -type file`; do
+    echo "$file"
     filepath=`grealpath $file`
     filename=`grealpath --relative-to=home $file`
     subdir=`dirname $filename`
+    mkdir -p ~/$subdir
     target_dir=`grealpath ~/$subdir`
     backup_path="$HOME/$backup_dir/$filename"
     backup_subdir=`dirname $backup_path`
@@ -32,6 +34,7 @@ for file in `find home -maxdepth 2 -type file`; do
         fi
     fi
     echo "Linking '$filepath' into '$target_dir'"
+    mkdir -p `dirname $target_dir`
     ln -si $filepath $target_dir
 
     read -p "Press enter to continue"

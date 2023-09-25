@@ -1,0 +1,6 @@
+{
+  "lazy.nvim": { "branch": "main", "commit": "2a9354c7d2368d78cbd5575a51a2af5bd8a6ad01" },
+  "nerdtree": { "branch": "master", "commit": "32168889bdbc1e7d1d313e3e41c1cc794b38eac5" },
+  "nvim-surround": { "branch": "main", "commit": "0d6882635817a2677749a330127d12ac30a4f3c8" },
+  "vim-airline": { "branch": "master", "commit": "e6bb8427dc2d2dc3583ed1bf5ff6a9682c854d32" }
+}

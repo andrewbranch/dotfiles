@@ -74,6 +74,10 @@ function fix_delay() {
 }
 
 alias code="code-insiders"
+if type "nvim" > /dev/null; then
+  alias vim=nvim
+  alias vi=nvim
+fi
 
 # TypeScript shortcuts
 alias bldiff="git diff --diff-filter=AM --no-index ./tests/baselines/reference ./tests/baselines/local"
