@@ -1,3 +1,14 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 # Shell options
 setopt SHARE_HISTORY
 setopt APPEND_HISTORY
@@ -20,15 +31,15 @@ bindkey "^[[B" history-substring-search-down
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
 
 # Prompt
-source "${HOME}/.zsh_prompt"
-autoload -U promptinit; promptinit
-zstyle ':completion:*' completer _complete _ignored _approximate
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+# source "${HOME}/.zsh_prompt"
+# autoload -U promptinit; promptinit
+# zstyle ':completion:*' completer _complete _ignored _approximate
+# zstyle ':completion:*' list-colors ''
+# zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
 # autoload -Uz vcs_info
 # precmd_vcs_info() { vcs_info }
 # precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
+# setopt prompt_subst
 # zstyle ':vcs_info:git:*' formats '%F{green}(%b)%f %F{yellow}%c%u%m%f'
 # zstyle ':vcs_info:*' enable git
 # zstyle ':vcs_info:*:*' stagedstr '+'
@@ -60,12 +71,6 @@ autoload -Uz compinit && compinit
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
-# Add cliptube to $PATH
-export PATH="$HOME/.cliptube/bin:$PATH"
-export PATH="/usr/local/opt/openjdk/bin:$PATH"
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-
 # bun completions
 [ -s "/Users/andrew/.bun/_bun" ] && source "/Users/andrew/.bun/_bun"
 
@@ -87,3 +92,11 @@ function precmd() {
   done
   typeset -U path
 }
+
+# pnpm
+export PNPM_HOME="/Users/andrew/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

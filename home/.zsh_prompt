@@ -80,7 +80,7 @@ function git_get_status() {
 	local status_string map_status chunk chunk_index mapped_status
 	local -a status_chunks
 	local -A git_flags git_strings git_numbers
-	status_string="$(git status --branch -u --porcelain -z 2> /dev/null)"
+	status_string="$(git --no-optional-locks status --branch -u --porcelain -z 2> /dev/null)"
 	if [[ $? -ne 0 ]]; then
 		git_flags=(
 			"in_repo" 0

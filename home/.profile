@@ -15,7 +15,7 @@ export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
 
 # serve current directory on port 8000
 function http() {
-  python -m http.server
+  python3 -m http.server
 }
 
 # kill whatever is on a given port
@@ -99,6 +99,9 @@ function no() {
     osascript -e 'quit application "Visual Studio Code"'
     osascript -e 'quit application "Visual Studio Code - Insiders"'
     osascript -e 'quit application "Microsoft Teams"'
+    osascript -e 'quit application "Microsoft Teams classic"'
+    osascript -e 'quit application "Microsoft Teams (work preview)"'
+    osascript -e 'quit application "Obsidian"'
     osascript -e 'quit application "Microsoft AutoUpdate"'
     
     SCRIPT=`cat <<EOF
