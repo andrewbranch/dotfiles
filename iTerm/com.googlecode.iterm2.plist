@@ -359,6 +359,8 @@
 		<dict>
 			<key>ASCII Anti Aliased</key>
 			<true/>
+			<key>ASCII Ligatures</key>
+			<false/>
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Ansi 0 Color</key>
@@ -366,13 +368,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.49803921580314636</real>
+				<real>0.29999999999999999</real>
 				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>P3</string>
 				<key>Green Component</key>
-				<real>0.49803921580314636</real>
+				<real>0.29999999999999999</real>
 				<key>Red Component</key>
-				<real>0.49803921580314636</real>
+				<real>0.29999999999999999</real>
 			</dict>
 			<key>Ansi 1 Color</key>
 			<dict>
@@ -392,13 +394,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.64313727617263794</real>
+				<real>0.46957385540008545</real>
 				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>P3</string>
 				<key>Green Component</key>
-				<real>0.81176471710205078</real>
+				<real>0.74855995178222656</real>
 				<key>Red Component</key>
-				<real>0.66274511814117432</real>
+				<real>0.62455254793167114</real>
 			</dict>
 			<key>Ansi 11 Color</key>
 			<dict>
@@ -457,13 +459,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.83137255907058716</real>
+				<real>0.94110113382339478</real>
 				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>P3</string>
 				<key>Green Component</key>
-				<real>0.83137255907058716</real>
+				<real>0.94110113382339478</real>
 				<key>Red Component</key>
-				<real>0.83137255907058716</real>
+				<real>0.94110113382339478</real>
 			</dict>
 			<key>Ansi 2 Color</key>
 			<dict>
@@ -672,6 +674,8 @@
 			<key>Description</key>
 			<string>Default</string>
 			<key>Disable Window Resizing</key>
+			<true/>
+			<key>Draw Powerline Glyphs</key>
 			<true/>
 			<key>Flashing Bell</key>
 			<false/>
@@ -901,7 +905,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>Monaco 12</string>
+			<string>MesloLGMNF-Regular 13</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
