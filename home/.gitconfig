@@ -17,9 +17,15 @@
 [core]
 	editor = /usr/bin/vim
 	autocrlf = input
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = delta
 	untrackedCache = false
 	fsmonitor = false
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
+[merge]
+  conflictstyle = zdiff3
 [credential]
 	helper = osxkeychain
 [push]
@@ -40,3 +46,9 @@
 	rebase = false
 [init]
 	defaultBranch = main
+[gpg]
+	program = gpg
+[protocol "file"]
+	allow = always
+[http]
+	postBuffer = 157286400
