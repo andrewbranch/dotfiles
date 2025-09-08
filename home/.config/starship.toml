@@ -28,7 +28,7 @@ modified = '!$count'
 renamed = '»$count'
 deleted = '✘$count'
 style = 'bright-blue'
-format = '([$all_status]($style) [$ahead_behind](green) )'
+format = '(([$all_status]($style) )[$ahead_behind](green) )'
 
 [nodejs]
 style = 'bg:#394432 fg:white'
