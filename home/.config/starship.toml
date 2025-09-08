@@ -13,7 +13,7 @@ $character\
 symbol = ' '
 
 [directory]
-style = 'blue'
+style = 'bold blue'
 
 [git_branch]
 style = 'green'
@@ -23,7 +23,7 @@ format = '[$symbol$branch]($style)'
 [git_status]
 untracked = '?$count'
 staged = '+$count'
-stashed = '$$count'
+stashed = '\$$count'
 modified = '!$count'
 renamed = '»$count'
 deleted = '✘$count'
