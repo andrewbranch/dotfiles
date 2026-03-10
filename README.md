@@ -32,6 +32,17 @@ irm get.chezmoi.io/ps1 | iex
 chezmoi init --apply andrewbranch
 ```
 
+## Setup
+
+After applying the dotfiles, run the setup script to install tools that chezmoi
+doesn't manage (Starship prompt, Nerd Fonts, etc.):
+
+```sh
+./setup.sh
+```
+
+Then set your terminal font to **MesloLGS Nerd Font** for prompt glyphs.
+
 ## What's managed
 
 | File | Platforms | Notes |
@@ -44,7 +55,6 @@ chezmoi init --apply andrewbranch
 | `.gitconfig` | All | Templated for OS-specific credential helpers |
 | `.config/nvim/` | macOS, Linux | Neovim config with lazy.nvim |
 | `.config/starship.toml` | All | Cross-platform prompt theme |
-| `.config/karabiner/` | macOS only | Keyboard remapping |
 | `Documents/PowerShell/Microsoft.PowerShell_profile.ps1` | Windows only | PowerShell profile |
 
 ## Day-to-day usage

@@ -132,16 +132,6 @@ EOF
   fi
 }
 
-# Audio output toggle
-function audio() {
-  current=$(SwitchAudioSource -c)
-  if [[ "$current" = "LG UltraFine Display Audio" ]]; then
-    SwitchAudioSource -s "Universal Audio Thunderbolt"
-  else
-    SwitchAudioSource -s "LG UltraFine Display Audio"
-  fi
-}
-
 # TypeScript shortcuts
 alias bldiff="git diff --diff-filter=AM --no-index ./tests/baselines/reference ./tests/baselines/local"
 alias bla="npx hereby baseline-accept"
