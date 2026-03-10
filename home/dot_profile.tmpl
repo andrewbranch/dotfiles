@@ -1,46 +1,63 @@
+# --- Platform detection ---
+{{ if eq .chezmoi.os "darwin" -}}
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export BREW_PREFIX=$(brew --prefix)
+{{- end }}
 
-# colors
+# --- Colors ---
 export CLICOLOR=1
 export TERM="xterm-color"
 
-# less
+# --- Less / pager ---
+{{ if eq .chezmoi.os "darwin" -}}
 export LESSOPEN="| $(which highlight) %s --out-format xterm256 --quiet --force --style ekvoli"
+{{- end }}
 export LESS=' -R -X -F '
 alias more='less'
 
-# Use GNU tar
+# --- Editors ---
+alias code="code-insiders"
+if type "nvim" > /dev/null 2>&1; then
+  alias vim=nvim
+  alias vi=nvim
+  export EDITOR=nvim
+else
+  export EDITOR=vim
+fi
+
+# --- Git aliases ---
+alias git-clean-branches='git branch --merged main | grep -v "\* main" | xargs -n 1 git branch -d'
+
+# --- Secrets ---
+test -f ~/.secrets && source ~/.secrets
+
+# --- Dev tool PATH setup ---
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+test -f "$HOME/.cargo/env" && . "$HOME/.cargo/env"
+export PATH="$HOME/go/bin:$PATH"
+
+{{ if eq .chezmoi.os "darwin" -}}
+# --- macOS: GNU tar ---
 export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
 
-# serve current directory on port 8000
+# --- macOS: Utility functions ---
+
+# Serve current directory on port 8000
 function http() {
   python3 -m http.server
 }
 
-# kill whatever is on a given port
+# Kill whatever is on a given port
 function killport() {
   lsof -i tcp:$1 -Fp | head -n 1 | cut -f 2 -d p | xargs kill -9
 }
 
-# screen capture after 5 seconds, sending output to clipboard
+# Screen capture to clipboard
 alias sc="screencapture -c"
 
-# clean git branches
-alias git-clean-branches='git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
-
-# toggle adware host blocking
-function hosts() {
-  sudo mv /etc/hosts  /etc/_hosts
-  sudo mv /etc/.hosts /etc/hosts
-  sudo mv /etc/_hosts /etc/.hosts
-}
-
-# secret things
-test -f ~/.secrets && source ~/.secrets
-
 # Copy file to clipboard
-function cpc () {
+function cpc() {
   osascript \
     -e 'on run args' \
     -e 'set the clipboard to POSIX file (first item of args)' \
@@ -48,42 +65,38 @@ function cpc () {
     "$@"
 }
 
-# print a system bell after the task exits
-function nag () {
-  $@;
-  echo -e "\a";
+# Print a system bell after the task exits
+function nag() {
+  "$@"
+  echo -e "\a"
 }
 
-# compress a video file
+# Compress a video file
 function cmp() {
-  base=`echo $1 | rev | cut -d. -f2 | rev`
+  base=$(echo "$1" | rev | cut -d. -f2 | rev)
   ext="mp4"
   cmd="ffmpeg -i \"$1\" -c:v libx264 -preset veryslow -crf 24 \"$base.cmp.$ext\""
-  echo $cmd
+  echo "$cmd"
   echo ""
   nag eval "$cmd" && du -h "$base.cmp.$ext"
 }
 
+# Fix audio/video delay
 function fix_delay() {
-  base=`echo $1 | rev | cut -d. -f2 | rev`
+  base=$(echo "$1" | rev | cut -d. -f2 | rev)
   ext="mp4"
   cmd="ffmpeg -ss $2 -i \"$1\" -i \"$1\" -map 0:0 -map 1:1 -acodec copy -vcodec copy \"$base.fixed.$ext\""
-  echo $cmd
+  echo "$cmd"
   echo ""
   nag eval "$cmd"
 }
 
-alias code="code-insiders"
-if type "nvim" > /dev/null; then
-  alias vim=nvim
-  alias vi=nvim
-fi
-
-# TypeScript shortcuts
-alias bldiff="git diff --diff-filter=AM --no-index ./tests/baselines/reference ./tests/baselines/local"
-alias bla="npx hereby baseline-accept"
-alias t="npx hereby runtests --no-typecheck"
-alias tp="npx hereby runtests-parallel"
+# Toggle adware host blocking
+function hosts() {
+  sudo mv /etc/hosts  /etc/_hosts
+  sudo mv /etc/.hosts /etc/hosts
+  sudo mv /etc/_hosts /etc/.hosts
+}
 
 # Work and not work
 function jobs() {
@@ -93,7 +106,7 @@ function jobs() {
   open -a "Microsoft Outlook"
 }
 function no() {
-  if [[ "$1" = "more"  &&  "$2" = "jobs" ]]; then
+  if [[ "$1" = "more" && "$2" = "jobs" ]]; then
     cd ~
     osascript -e 'quit application "Microsoft Outlook"'
     osascript -e 'quit application "Visual Studio Code"'
@@ -103,8 +116,8 @@ function no() {
     osascript -e 'quit application "Microsoft Teams (work preview)"'
     osascript -e 'quit application "Obsidian"'
     osascript -e 'quit application "Microsoft AutoUpdate"'
-    
-    SCRIPT=`cat <<EOF
+
+    SCRIPT=$(cat <<'EOF'
       set urls to {"github.com", "microsoft.com", "azure.com", "office.com", "unpkg.com", "npm.com", "typescriptlang.org", "nodejs.org"}
       tell application "Safari"
         repeat with w in (every window)
@@ -113,13 +126,15 @@ function no() {
           end repeat
         end repeat
       end tell
-    EOF`
-    osascript -e $SCRIPT > /dev/null
-  fi 
+EOF
+    )
+    osascript -e "$SCRIPT" > /dev/null
+  fi
 }
 
+# Audio output toggle
 function audio() {
-  current=`SwitchAudioSource -c`
+  current=$(SwitchAudioSource -c)
   if [[ "$current" = "LG UltraFine Display Audio" ]]; then
     SwitchAudioSource -s "Universal Audio Thunderbolt"
   else
@@ -127,8 +142,9 @@ function audio() {
   fi
 }
 
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-. "$HOME/.cargo/env"
-
-export PATH="$HOME/go/bin:$PATH"
+# TypeScript shortcuts
+alias bldiff="git diff --diff-filter=AM --no-index ./tests/baselines/reference ./tests/baselines/local"
+alias bla="npx hereby baseline-accept"
+alias t="npx hereby runtests --no-typecheck"
+alias tp="npx hereby runtests-parallel"
+{{- end }}

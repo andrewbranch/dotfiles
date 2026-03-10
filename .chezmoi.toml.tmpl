@@ -1,0 +1,8 @@
+{{- $email := promptStringOnce . "email" "Email address" -}}
+{{- $gpgKey := promptStringOnce . "gpgKey" "GPG signing key (leave blank to disable)" -}}
+
+sourceDir = {{ joinPath .chezmoi.sourceDir "home" | quote }}
+
+[data]
+  email = {{ $email | quote }}
+  gpgKey = {{ $gpgKey | quote }}

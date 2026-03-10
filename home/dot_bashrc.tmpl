@@ -1,0 +1,25 @@
+# --- Bash completion ---
+{{ if eq .chezmoi.os "darwin" -}}
+if [ -f "$(brew --prefix)/share/bash-completion/bash_completion" ]; then
+  . "$(brew --prefix)/share/bash-completion/bash_completion"
+fi
+{{- else -}}
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+  . /usr/share/bash-completion/bash_completion
+elif [ -f /etc/bash_completion ]; then
+  . /etc/bash_completion
+fi
+{{- end }}
+
+# --- Custom completions ---
+if [ -d ~/.bash_completion.d ]; then
+  for file in ~/.bash_completion.d/*; do
+    [ -f "$file" ] && . "$file"
+  done
+fi
+
+# --- Shared profile ---
+source ~/.profile
+
+# --- Prompt ---
+eval "$(starship init bash)"

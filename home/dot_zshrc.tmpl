@@ -1,0 +1,70 @@
+# --- History ---
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
+setopt HIST_REDUCE_BLANKS
+setopt HIST_IGNORE_DUPS
+
+# --- Shell options ---
+setopt CORRECT
+setopt NOCORRECT_ALL
+
+# --- Shared profile ---
+source ~/.profile
+
+# --- Word deletion (bash-style: stop at / and -) ---
+autoload -U select-word-style
+select-word-style bash
+
+# --- History search ---
+{{ if eq .chezmoi.os "darwin" -}}
+source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+{{- else -}}
+# On Linux, install zsh-history-substring-search via package manager
+test -f /usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh && \
+  source /usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+{{- end }}
+bindkey "^[[A" history-substring-search-up
+bindkey "^[[B" history-substring-search-down
+export HISTORY_SUBSTRING_SEARCH_FUZZY=1
+
+# --- Completions ---
+autoload -Uz compinit && compinit
+
+# --- iTerm2 shell integration ---
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# --- Bun ---
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# --- pnpm ---
+{{ if eq .chezmoi.os "darwin" -}}
+export PNPM_HOME="$HOME/Library/pnpm"
+{{- else -}}
+export PNPM_HOME="$HOME/.local/share/pnpm"
+{{- end }}
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# --- Add nearest node_modules/.bin to PATH ---
+function precmd() {
+  path=( ${path[@]:#*node_modules*} )
+  local p="$(pwd)"
+  while [[ "$p" != '/' ]]; do
+    if [[ -d "$p/node_modules/.bin" ]]; then
+      path=("$p/node_modules/.bin" $path)
+    fi
+    p="$(dirname "$p")"
+  done
+  typeset -U path
+}
+
+# --- Prompt ---
+eval "$(starship init zsh)"
