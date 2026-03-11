@@ -17,9 +17,9 @@ BREW_FORMULAE=(
   go
   highlight
   neovim
+  n
   pnpm
   starship
-  volta
   zsh-history-substring-search
 )
 
@@ -141,9 +141,9 @@ setup_linux_extras() {
     warn "git-delta is not in apt — install manually: https://github.com/dandavison/delta/releases"
   fi
 
-  if ! command -v volta &>/dev/null; then
-    info "Installing Volta…"
-    curl https://get.volta.sh | bash -s -- --skip-setup
+  if ! command -v fnm &>/dev/null; then
+    info "Installing fnm…"
+    curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
   fi
 
   if ! command -v pnpm &>/dev/null; then

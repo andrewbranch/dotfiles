@@ -32,8 +32,12 @@ alias git-clean-branches='git branch --merged main | grep -v "\* main" | xargs -
 test -f ~/.secrets && source ~/.secrets
 
 # --- Dev tool PATH setup ---
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+{{ if eq .chezmoi.os "darwin" -}}
+export N_PREFIX="$HOME/.n"
+export PATH="$N_PREFIX/bin:$PATH"
+{{- else -}}
+command -v fnm &>/dev/null && eval "$(fnm env)"
+{{- end }}
 test -f "$HOME/.cargo/env" && . "$HOME/.cargo/env"
 export PATH="$HOME/go/bin:$PATH"
 
