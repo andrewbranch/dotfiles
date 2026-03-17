@@ -20,11 +20,13 @@ BREW_FORMULAE=(
   n
   pnpm
   starship
+  xz
   zsh-history-substring-search
 )
 
 BREW_FORMULAE_MACOS=(
   gnu-tar
+  pinentry-mac
 )
 
 BREW_CASKS=(
