@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    "**/.chezmoi.toml.tmpl": "toml",
+    "**/home/dot_bashrc.tmpl": "shellscript",
+    "**/home/dot_gitconfig.tmpl": "ini",
+    "**/home/dot_profile.tmpl": "shellscript",
+    "**/home/dot_zshrc.tmpl": "shellscript",
+    "**/home/private_dot_gnupg/gpg-agent.conf.tmpl": "properties"
+  }
+}
