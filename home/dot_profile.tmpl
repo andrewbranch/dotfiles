@@ -1,7 +1,7 @@
 # --- Platform detection ---
 {{ if eq .chezmoi.os "darwin" -}}
 eval "$(/opt/homebrew/bin/brew shellenv)"
-export BREW_PREFIX=$(brew --prefix)
+export BREW_PREFIX="$HOMEBREW_PREFIX"
 {{- end }}
 
 # --- Colors ---
@@ -10,7 +10,7 @@ export TERM="xterm-color"
 
 # --- Less / pager ---
 {{ if eq .chezmoi.os "darwin" -}}
-export LESSOPEN="| $(which highlight) %s --out-format xterm256 --quiet --force --style ekvoli"
+export LESSOPEN="| $BREW_PREFIX/bin/highlight %s --out-format xterm256 --quiet --force --style ekvoli"
 {{- end }}
 export LESS=' -R -X -F '
 alias more='less'
@@ -43,7 +43,7 @@ export PATH="$HOME/go/bin:$PATH"
 
 {{ if eq .chezmoi.os "darwin" -}}
 # --- macOS: GNU tar ---
-export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
+export PATH="$BREW_PREFIX/opt/gnu-tar/libexec/gnubin:$PATH"
 
 # --- macOS: Utility functions ---
 

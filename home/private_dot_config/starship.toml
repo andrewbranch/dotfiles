@@ -5,7 +5,7 @@
 add_newline = true
 
 format = """
-$directory$git_branch$git_state $git_status$fill$cmd_duration$nodejs
+$directory$git_branch$git_state $git_status$fill$cmd_duration
 $character\
 """
 
@@ -21,6 +21,7 @@ symbol = ' '
 format = '[$symbol$branch]($style)'
 
 [git_status]
+ignore_submodules = true
 untracked = '?$count'
 staged = '+$count'
 stashed = '\$$count'
@@ -31,6 +32,4 @@ style = 'bright-blue'
 format = '(([$all_status]($style) )[$ahead_behind](green) )'
 
 [nodejs]
-style = 'bg:#394432 fg:white'
-symbol = ' '
-format = "([](#394432)[$symbol($version)]($style))"
+disabled = true

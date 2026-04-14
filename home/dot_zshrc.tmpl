@@ -24,7 +24,7 @@ select-word-style bash
 
 # --- History search ---
 {{ if eq .chezmoi.os "darwin" -}}
-source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+source $BREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 {{- else -}}
 # On Linux, install zsh-history-substring-search via package manager
 test -f /usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh && \
@@ -35,7 +35,13 @@ bindkey "^[[B" history-substring-search-down
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
 
 # --- Completions ---
-autoload -Uz compinit && compinit
+# Rebuild completion dump once per day; use cache otherwise
+autoload -Uz compinit
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
 
 # --- iTerm2 shell integration ---
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
