@@ -31,11 +31,13 @@ function gl { git log --oneline -20 @args }
 # --- PSReadLine (better editing experience) ---
 if (Get-Module -ListAvailable -Name PSReadLine) {
     Set-PSReadLineOption -EditMode Emacs
-    Set-PSReadLineOption -PredictionSource History
     Set-PSReadLineOption -HistorySearchCursorMovesToEnd
     Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
     Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
     Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+    if ((Get-Module PSReadLine).Version -ge [version]"2.2.0") {
+        Set-PSReadLineOption -PredictionSource History
+    }
 }
 
 # --- Prompt (starship) ---
