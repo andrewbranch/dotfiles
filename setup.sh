@@ -168,6 +168,19 @@ setup_linux_extras() {
   fi
 }
 
+setup_gh_credentials() {
+  if ! command -v gh &>/dev/null; then
+    warn "gh CLI not found — skipping credential helper setup"
+    return
+  fi
+  if gh auth status &>/dev/null; then
+    info "Configuring gh as Git credential helper…"
+    gh auth setup-git
+  else
+    warn "gh not authenticated — run 'gh auth login' then 'gh auth setup-git'"
+  fi
+}
+
 # ============================================================
 # Main
 # ============================================================
@@ -190,6 +203,7 @@ main() {
   setup_git_lfs
   setup_rustup
   setup_bun
+  setup_gh_credentials
 
   info "Done! Set your terminal font to \"MesloLGS Nerd Font\" for prompt glyphs."
 }
