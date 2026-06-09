@@ -10,7 +10,11 @@
 	mergemain = "!git checkout main && git pull && git checkout - && git merge -"
 [core]
 	editor = nvim
+{{- if eq .chezmoi.os "windows" }}
+	autocrlf = true
+{{- else }}
 	autocrlf = input
+{{- end }}
 	pager = delta
 [interactive]
 	diffFilter = delta --color-only
@@ -25,6 +29,8 @@
 	helper = osxkeychain
 {{- else if eq .chezmoi.os "linux" }}
 	helper = store
+{{- else if eq .chezmoi.os "windows" }}
+	helper = manager
 {{- end }}
 [push]
 	default = current

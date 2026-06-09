@@ -1,0 +1,21 @@
+{{- if eq .chezmoi.os "windows" -}}
+# Create stubs at $PROFILE locations that dot-source the chezmoi-managed profile.
+# This is needed because OneDrive may redirect Documents away from ~/Documents.
+
+$chezmoiProfile = Join-Path $env:USERPROFILE "Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
+
+# Create stubs for both PowerShell 7 and Windows PowerShell 5.1
+$profilePaths = @(
+  (Join-Path $env:USERPROFILE "OneDrive - Microsoft\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"),
+  (Join-Path $env:USERPROFILE "OneDrive - Microsoft\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1")
+)
+
+foreach ($profilePath in $profilePaths) {
+  $parentDir = Split-Path $profilePath -Parent
+  if (Test-Path $parentDir) {
+    $stub = ". `"$chezmoiProfile`""
+    Set-Content -Path $profilePath -Value $stub -Force
+    Write-Host "Created profile stub at $profilePath"
+  }
+}
+{{- end }}
