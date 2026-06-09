@@ -28,6 +28,9 @@ fi
 # --- Git aliases ---
 alias git-clean-branches='git branch --merged main | grep -v "\* main" | xargs -n 1 git branch -d'
 
+# --- GPG ---
+export GPG_TTY="$(tty)"
+
 # --- Secrets ---
 test -f ~/.secrets && source ~/.secrets
 
@@ -39,7 +42,7 @@ export PATH="$N_PREFIX/bin:$PATH"
 command -v fnm &>/dev/null && eval "$(fnm env)"
 {{- end }}
 test -f "$HOME/.cargo/env" && . "$HOME/.cargo/env"
-export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/go/bin:$PATH"
 
 {{ if eq .chezmoi.os "darwin" -}}
 # --- macOS: GNU tar ---
