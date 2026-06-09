@@ -34,22 +34,9 @@ if (Get-Module -ListAvailable -Name PSReadLine) {
     Set-PSReadLineOption -HistorySearchCursorMovesToEnd
     Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
     Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+    Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
     if ((Get-Module PSReadLine).Version -ge [version]"2.2.0") {
         Set-PSReadLineOption -PredictionSource History
-        # Tab accepts ghost text prediction when visible, otherwise does normal completion
-        Set-PSReadLineKeyHandler -Key Tab -ScriptBlock {
-            param($key, $arg)
-            $line = $null
-            $cursor = $null
-            [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-            if ($line.Length -gt 0 -and $cursor -ge $line.Length) {
-                [Microsoft.PowerShell.PSConsoleReadLine]::AcceptSuggestion($key, $arg)
-            } else {
-                [Microsoft.PowerShell.PSConsoleReadLine]::MenuComplete($key, $arg)
-            }
-        }
-    } else {
-        Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
     }
 }
 
