@@ -40,5 +40,10 @@ if (Get-Module -ListAvailable -Name PSReadLine) {
     }
 }
 
+# --- Dev tool setup (fnm) ---
+if (Get-Command fnm -ErrorAction SilentlyContinue) {
+    fnm env --use-on-cd | Out-String | Invoke-Expression
+}
+
 # --- Prompt (starship) ---
 Invoke-Expression (&starship init powershell)
