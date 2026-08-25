@@ -35,6 +35,9 @@ bindkey "^[[B" history-substring-search-down
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
 
 # --- Completions ---
+# Don't eat the auto-inserted space when typing | after a completion
+ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&'
+
 # Rebuild completion dump once per day; use cache otherwise
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
