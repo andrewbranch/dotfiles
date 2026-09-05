@@ -18,6 +18,9 @@ source ~/.profile
 # Force emacs-style ZLE even though EDITOR=nvim contains "vi"
 bindkey -e
 
+# --- Natural-language commands ---
+eval "$(prompty init zsh)"
+
 # --- Word deletion (bash-style: stop at / and -) ---
 autoload -U select-word-style
 select-word-style bash
