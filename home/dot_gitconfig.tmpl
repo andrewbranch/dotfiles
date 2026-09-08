@@ -27,6 +27,9 @@
 [credential]
 {{- if eq .chezmoi.os "darwin" }}
 	helper = osxkeychain
+	helper =
+	helper = /usr/local/share/gcm-core/git-credential-manager
+	azreposCredentialType = oauth
 {{- else if eq .chezmoi.os "linux" }}
 	helper = store
 {{- else if eq .chezmoi.os "windows" }}
@@ -56,3 +59,15 @@
 	allow = always
 [http]
 	postBuffer = 157286400
+{{- if eq .chezmoi.os "darwin" }}
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://dev.azure.com"]
+	useHttpPath = true
+[credential "azrepos:org/devdiv"]
+	username = anbranc@microsoft.com
+{{- end }}

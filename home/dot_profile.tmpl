@@ -45,6 +45,9 @@ test -f "$HOME/.cargo/env" && . "$HOME/.cargo/env"
 export PATH="$HOME/.local/bin:$HOME/go/bin:$PATH"
 
 {{ if eq .chezmoi.os "darwin" -}}
+# --- Python: unversioned `python` and `pip` from Homebrew ---
+export PATH="$BREW_PREFIX/opt/python@3.14/libexec/bin:$PATH"
+
 # --- macOS: GNU tar ---
 export PATH="$BREW_PREFIX/opt/gnu-tar/libexec/gnubin:$PATH"
 
