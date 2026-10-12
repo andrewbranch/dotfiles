@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Reclaim disk space used by Colima: prune Docker, then TRIM the VM disk so the
+# sparse image on the host actually shrinks.
+# Usage: colima-reclaim [--all]   (--all also removes unused images and volumes)
+set -euo pipefail
+
+info() { printf '\033[34m==>\033[0m %s\n' "$*"; }
+warn() { printf '\033[33mwarn:\033[0m %s\n' "$*" >&2; }
+error() { printf '\033[31merror:\033[0m %s\n' "$*" >&2; exit 1; }
+
+PROFILE="${COLIMA_PROFILE:-default}"
+DISK_NAME="colima"
+[ "$PROFILE" = "default" ] || DISK_NAME="colima-$PROFILE"
+DISK="$HOME/.colima/_lima/_disks/$DISK_NAME/datadisk"
+
+disk_usage() { du -sh "$DISK" 2>/dev/null | cut -f1; }
+
+command -v colima >/dev/null || error "colima not found"
+colima status -p "$PROFILE" >/dev/null 2>&1 || error "colima is not running (start it with: colima start)"
+
+before="$(disk_usage)"
+info "Disk image before: ${before:-unknown}"
+
+if command -v docker >/dev/null; then
+  if [ "${1:-}" = "--all" ]; then
+    info "Pruning all unused Docker data (images, volumes, build cache)"
+    docker system prune -af --volumes
+  else
+    info "Pruning stopped containers, dangling images, networks, build cache"
+    docker system prune -f
+    docker builder prune -f
+  fi
+fi
+
+info "Trimming VM filesystems"
+colima ssh -p "$PROFILE" -- sudo fstrim -av || warn "fstrim failed"
+
+after="$(disk_usage)"
+info "Disk image after: ${after:-unknown} (was ${before:-unknown})"
